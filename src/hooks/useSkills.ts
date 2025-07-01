@@ -65,12 +65,16 @@ export const useSkills = (attributes: Attributes, calculateModifier: (value: num
   };
 
   const removeSkillPoint = (skillName: string) => {
-    if (skillPoints[skillName] && skillPoints[skillName] > 0) {
-      setSkillPoints(prev => ({
-        ...prev,
-        [skillName]: prev[skillName] - 1
-      }));
-    }
+    setSkillPoints(prev => {
+      const current = prev[skillName] || 0;
+      if (current > 0) {
+        return {
+          ...prev,
+          [skillName]: current - 1
+        };
+      }
+      return prev;
+    });
   };
 
   const getSkillModifier = (skillName: string) => {
